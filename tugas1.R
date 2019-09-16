@@ -18,19 +18,8 @@ plot(xbarchart1)
 #I-MR
 library(ggplot2)
 library(ggQC)
-Xbar_Plot <- 
-  ggplot(xmr, aes(x = Hari_pengolahan , y = I)) + #init ggplot
-  geom_point() + geom_line() + #menambah titik dan garis
-  stat_QC(method = "XmR", #menentukan metode yang dipakai
-          auto.label = T, #menggunakan autolabels
-          label.digits = 4, #digit yang digunakan dalam label
-          show.1n2.sigma = T  #menampilkan garis 1 dan 2 sigma
-  )+
-  xlab('Hari Pengolahan') +
-  ylab('Kadar Air (%)') +
-  scale_x_continuous(expand =  expand_scale(mult = .15))  #expand sumbu-x
 
-Xbar_Plot
+theme_update(plot.title = element_text(hjust = 0.5))
 
 mR_Plot <- 
   ggplot(xmr, aes(x = Hari_pengolahan, y = I)) + #init ggplot
@@ -40,13 +29,47 @@ mR_Plot <-
   ) +
   xlab('Hari Pengolahan') +
   ylab('Moving Range Kadar Air') +
+  ggtitle("MR Chart for Kadar Air") +
   scale_x_continuous(expand =  expand_scale(mult = .15))
 
 mR_Plot
 
+xmr1=xmr[-c(12,16),]
+
+mR1_Plot <- 
+  ggplot(xmr1, aes(x = Hari_pengolahan, y = I)) + #init ggplot
+  stat_QC(method="mR",
+          auto.label = T,
+          label.digits = 4, 
+  ) +
+  xlab('Hari Pengolahan') +
+  ylab('Moving Range Kadar Air') +
+  ggtitle("MR Chart for Kadar Air") +
+  scale_x_continuous(expand =  expand_scale(mult = .15))
+
+mR1_Plot
+
+Xbar1_Plot <- 
+  ggplot(xmr1, aes(x = Hari_pengolahan , y = I)) + #init ggplot
+  geom_point() + geom_line() + #menambah titik dan garis
+  stat_QC(method = "XmR", #menentukan metode yang dipakai
+          auto.label = T, #menggunakan autolabels
+          label.digits = 4, #digit yang digunakan dalam label
+          show.1n2.sigma = T  #menampilkan garis 1 dan 2 sigma
+  )+
+  xlab('Hari Pengolahan') +
+  ylab('Kadar Air (%)') +
+  ggtitle("Individual Chart for Kadar Air") +
+  scale_x_continuous(expand =  expand_scale(mult = .15))  #expand sumbu-x
+
+Xbar1_Plot
+
 QC_Violations_xbar <- 
-  ggplot(xmr, aes(x = Hari_pengolahan, y = I)) + #init ggplot
+  ggplot(xmr1, aes(x = Hari_pengolahan, y = I)) + #init ggplot
   stat_qc_violations(method = "XmR" 
                      #show.facets = 4 #jika hanya ingin menampilkan facet ke-4
-  )
+  ) +
+  xlab('Hari Pengolahan') +
+  ylab('Kadar Air (%)')
+
 QC_Violations_xbar
