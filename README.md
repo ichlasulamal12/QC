@@ -1,2 +1,2 @@
 # QC
-Repository untuk penggunaan Quality Control
+Repository for Quality Control Analysis
